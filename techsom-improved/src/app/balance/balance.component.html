@@ -1,0 +1,213 @@
+<html>
+<head>
+    <title>Balance Sheet</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+<body style="float: left; width: 95%">
+  <div class="container" style="float: left;">
+  <div id="top">
+  <table class="table" style="float: left; margin-top: 5%; width: 50%">
+    <h3>Summary</h3>
+        <tr>
+          <td>Description</td>
+          <td>Amount</td>
+        </tr> 
+        <tr class="danger">
+            <td>Initial</td>
+            <td>{{balance[0] | currency}}</td>
+          </tr>     
+        <tr class="success">
+          <td>Dayn</td>
+          <td>{{balance[1] | currency}}</td>
+        </tr>
+        <tr class="danger">
+          <td>Amano</td>
+          <td>{{balance[3] | currency}}</td>
+        </tr>
+        <tr class="warning">
+            <td>Droped from Hawala</td>
+            <td>{{balance[2] | currency}}</td>
+          </tr>
+        <tr class="info">
+          <td>Cash</td>
+          <td>{{balance[4] | currency}}</td>
+        </tr>
+        <tr class="danger">
+          <td>Expenses</td>
+          <td>{{balance[10] | currency}}</td>
+        </tr>
+        <tr class="warning">
+          <td>Pending Checks</td>
+          <td>{{balance[5] | currency}}</td>
+        </tr>
+        <tr class="danger">
+            <td>Deposited Checks</td>
+            <td>{{balance[6] | currency}}</td>
+          </tr>
+          <tr class="active">
+              <td>Overall</td>
+              <td>{{balance[8] | currency}}</td>
+            </tr>
+    </table>
+
+
+<div style="height: 500px; width: 50%; overflow: auto; float: left; margin-top: 5%;">
+    <table class="table" style="width: 100%">
+      <h3>Deposits</h3>
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Count</th>
+          <th>Total</th>
+          <th>Operator</th>
+          <th>Action</th>
+        </tr>
+        <!-- <tr *ngFor="let x of cash">
+          <td>{{x.date * 1000 | date}}oipoipo</td>
+          <td>${{x.amount}}</td>
+          <td>{{x.status}}</td>
+        </tr> -->
+        <tr *ngFor="let x of ready">
+            <td>{{x.date * 1000 | date}}</td>
+            <td>{{x.type}}</td>
+            <td>{{x.count}}</td>
+            <td>{{x.total | currency}}</td>
+            <td>{{x.initials}}</td>
+            <td *ngIf="x.state != 'confirmed'"><button (click)="confirm(x.id)">Confirm</button></td>
+            <td *ngIf="x.state">Confirmed</td>
+          </tr>
+    </table>
+
+  </div><br />
+</div>
+<br />
+
+
+
+<h2>Miscellaneous</h2>
+<form id="form" style="text-align: left" (submit)="registerExpense()">
+<input type="text" placeholder="Description" name="description" [(ngModel)]="model.description">
+<select value="choose type" name="type" [(ngModel)]="model.type">
+  <option>Expense</option>
+  <option>Business</option>
+</select>
+<input type="submit" name="submit" value="Register">
+</form> <br />
+<hr />
+<table class="blueTable" width="367">
+  <thead>
+  <tr>
+  <th>Date</th>
+  <th>Description</th>
+  <th>Balance</th>
+  <th>Action</th>
+  </tr>
+  </thead>
+  <tfoot>
+  <tr>
+  </tr>
+  </tfoot>
+  <tbody>
+  <tr *ngFor="let x of expenses_major">
+  <td>{{x.date * 1000 | date}}</td>
+  <td>{{x.description}}</td>
+  <td *ngIf="x.r_balance >= 0">{{x.r_balance | currency}}</td>
+  <td style="color: green" *ngIf="x.r_balance < 0"><span>(</span>{{x.r_balance * -1 | currency}}<span>)</span></td>
+  <td>
+    <button class="btn-success" (click)="pops(x.id, x.description, x.type)">Add/Pay</button>
+    <button class="btn-danger" (click)="delete_expense(x.id)">Delete</button>
+  </td>
+  </tr>
+  </tbody>
+  </table>
+
+
+<div id="myEdit2" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <button (click)="pop_close()" class="close">&times;</button>
+    <!DOCTYPE html>
+    <html lang="en">
+    <body>
+    <!-- <style>
+      #form{
+        width: 400px;
+        float: left;
+      }
+      .table {
+        width: auto;
+        float: left;
+        margin-left: 100px;
+      }
+      #name {
+        margin-left: 200px;
+        color: darkblue;
+      }
+    </style> -->
+    <div style="text-align: center; padding-right: 0%; padding-left: 0%; width: 100%" class="container">
+      <div id="name">
+        <h3>{{name_description}}</h3>
+     </div>
+      <form id="form" style="text-align: left">
+
+          <!-- <label for="email">Description</label> -->
+          <input *ngIf="type == 'Business'" style="width: 40%; float: left;" type="text" class="form-control" id="disc" placeholder="Enter Full Name" name="description" [(ngModel)]="models.description_r">
+          <input *ngIf="type != 'Business'" style="width: 40%; float: left;" type="text" class="form-control" id="disc" placeholder="Enter Description" name="description" [(ngModel)]="models.description_r">
+
+          <!-- <label for="pwd">Amount:</label> -->
+          <input style="width: 40%; float: left;" type="amount" class="form-control" id="amount" placeholder="Enter $$" name="amount" [(ngModel)]="models.amount">
+
+        <!-- <div class="checkbox">
+          <label><input type="checkbox" name="remember"> Remember me</label>
+        </div> -->
+
+        <button *ngIf="type == 'Business'" style="float: left;" type="submit" class="btn btn-danger" (click)="addExpense_credit(id)">+</button><br /><br />
+        <!-- <button *ngIf="type != 'Business'" style="float: left;" type="submit" class="btn btn-success" (click)="addExpense_debit(id)">-</button> -->
+
+
+        <button *ngIf="type != 'Business'" style="float: left;" type="submit" class="btn btn-danger" (click)="addExpense_credit(id)">Expense</button>
+        <button *ngIf="type != 'Business'" style="float: left;" type="submit" class="btn btn-success" (click)="addExpense_debit(id)">Credited</button>
+      </form>
+      <!-- filter by:<input type="text" [(ngModel)]="magac"> -->
+    <table class="table table-striped">
+         <thead>
+           <tr>
+             <th>Date</th>
+             <th *ngIf="type != 'Business'">Description</th>
+             <th *ngIf="type == 'Business'">Name</th>
+             <th *ngIf="type != 'Business'">Expense</th>
+             <th *ngIf="type == 'Business'">Amount</th>
+             <th *ngIf="type != 'Business'">Credited</th>
+             <th *ngIf="type == 'Business'">Action</th>
+             <th *ngIf="type != 'Business'">Balance</th>
+           </tr>
+         </thead>
+         <tbody>
+           <tr *ngFor="let x of expenses_minor">
+             <td>{{x.date * 1000| date}}</td>
+             <td>{{x.description_r}}</td>
+             <td *ngIf="type != 'Business'">{{x.debit | currency}}</td>
+             <td>{{x.credit | currency}}</td>
+             <td *ngIf="x.idbalance > 0 && type != 'Business'">{{x.idbalance | currency}}</td>
+             <td style="color: green" *ngIf="x.idbalance < 0 && type != 'Business'"><span>(</span>{{x.idbalance * -1 | currency}}<span>)</span></td>
+             <td *ngIf="type == 'Business'">
+               <button (click)="delete(x.id, x.id_customer)" class="btn-danger">Drop/paid</button>
+             </td>
+           </tr>
+         </tbody>
+       </table>
+      </div>
+    </body>
+    </html>
+  </div>
+
+</div>
+</div>
+</body>
+</html>

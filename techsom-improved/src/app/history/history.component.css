@@ -1,0 +1,21 @@
+input[type=text]:focus {
+    background-color: lightblue;
+}
+
+input[type=number]:focus {
+    background-color: lightblue;
+}
+#search {
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+#search:focus {
+    width: 40%;
+}
+
+.container {
+    margin-top: 3%;
+    width: 90%;
+    float: left;
+}

@@ -1,0 +1,144 @@
+<html>
+<head>
+    <title>Balance Sheet</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+<body style="float: left;">
+<div class="container" style="float: left; margin-top: 5%;">
+<div id="Settings" style="width: 100%; float: left; width: 30%;">
+    <form id="passcode" (submit)="unlock()">
+      <span id="error" style="color: orangered;">Wrong Passcode, please try again</span><br />
+        <input style="width: 300px" class="w3-input" type="password" name="pass" [(ngModel)]="passcode" placeholder="Enter your code" required/> <br />
+        <input class="w3-btn w3-blue" type="submit" value="Unlock" name="submit" />
+        </form>
+  <div id="rest">
+    <form id="form" (submit)="initial_register()" class="w3-container">
+        <h3>Change Initial Amount</h3>
+        <input style="width: 300px" class="w3-input" type="text" [(ngModel)]="initial" placeholder="Enter Initial Amount" name="initial"><br />
+      <button class="w3-btn w3-blue" type="submit">Update</button>
+    </form>
+    <hr />
+    <form id="form" (submit)="reset()" (mouseover)="equal()" class="w3-container">
+      <h3>Reset Your Password</h3>
+      <span style="color: red">{{error}}</span><br />
+          <input style="width: 300px" class="w3-input" type="password" placeholder="Enter new password" name="uname" [(ngModel)]="localUser.password"  required><br />
+          <input style="width: 300px" class="w3-input" type="password" placeholder="confirm new Password" [(ngModel)]="localUser.confirm_password"  name="psw" required><br /> 
+          <button class="w3-btn w3-blue" type="submit">Reset</button>
+      </form> <hr />
+      <style>
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+      
+      .switch input {display:none;}
+      
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+      
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+      
+      input:checked + .slider {
+        background-color: #2196F3;
+      }
+      
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+      }
+      
+      input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+      
+      /* Rounded sliders */
+      .slider.round {
+        border-radius: 34px;
+      }
+      
+      .slider.round:before {
+        border-radius: 50%;
+      }
+
+      .fa-check-square-o {
+          tab-size: 40%;
+      }
+      </style>
+      <h1>Notifications:<span *ngIf="checked" style="color: green">On</span><span *ngIf="!checked" style="color: red">Off</span></h1>
+      {{send_real}}
+      <label class="switch"> 
+       <input (click)="check()" type="checkbox" [(ngModel)]="checked">
+        <span class="slider round"></span>
+      </label>
+<hr />
+</div>
+
+
+
+
+</div>
+<div id="table" style="float: right; width: 55%; margin-right: 10%;">
+  <h3>Employees</h3>
+    <form>
+        <input type="text" name="first_name" placeholder="First Name" [(ngModel)]="employee.first_name"/>
+        <input type="text" name="last_name" placeholder="Last Name" [(ngModel)]="employee.last_name"/>
+        <input type="email" name="email" placeholder="Email" [(ngModel)]="employee.email"/>
+        <input type="text" name="phone" placeholder="Initials" [(ngModel)]="employee.initials"/>
+        <input (click)="register_employee()" type="submit" name="Register" value="Register">
+      </form> <br />
+  <table class="blueTable">
+    <thead>
+    <tr>
+    <th>First</th>
+    <th>Last</th>
+    <th>Email</th>
+    <th>Status</th>
+    <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let x of employees">
+    <td>{{x.first_name}}</td>
+    <td>{{x.last_name}}</td>
+    <td>{{x.email}}</td>
+    <td>{{x.status}}</td>
+    <td>
+      <button (click)="delete_employee(x.id)" class="btn-danger">Delete</button>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+<hr />
+    
+    <h1 style="font-size: 80;"><button class="btn btn-success" (click)="send_email()">Send Email</button><span>   </span><i style="color: red;" *ngIf="!tick" class="fa fa-hourglass-1" aria-hidden="true"></i><i style="color: green;" *ngIf="tick" class="fa fa-check-square-o" aria-hidden="true"></i>{{sent_email}}</h1>
+</div>
+</div>
+</body>
+</html>

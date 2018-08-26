@@ -1,0 +1,104 @@
+<html>
+  <title>Techsom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <body id="body">
+  
+  <!-- Navbar -->
+  <!-- Sidebar -->
+  <div class="w3-top" style="background-color: olive">
+      <div class="w3-bar w3-theme w3-top w3-left-align w3-large" style="background-color: olive">
+        <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" (click)="w3_open()"><i class="fa fa-bars"></i></a>
+        <a style="width: 30%; text-align: left;" class="w3-bar-item w3-button">Techsom</a>
+        <span>{{full_name}}</span>
+        <a style="float: right;" id="do" *ngIf="authenticated" (click)="out()" class="w3-bar-item w3-button w3-theme-l1">logout</a>
+      </div>
+    </div>
+   <nav *ngIf="authenticated" class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
+      <a href="javascript:void(0)" (click)="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+        <i class="fa fa-remove"></i>
+      </a>
+      <!-- <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" (click)="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a> -->
+      <a routerLinkActive="active current" routerLink="home" class="w3-bar-item w3-button w3-padding"><i class="fa fa-spinner fa-fw"></i>  Home</a>
+      <a routerLinkActive="active current" routerLink="checks-cash" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Cash/Checks</a>
+      <!-- <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Views</a> -->
+      <a routerLinkActive="active current" routerLink="dayn" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cube fa-fw"></i>  Dayn</a>
+      <a routerLinkActive="active current" routerLink="accounts" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  Amaano</a>
+      <a routerLinkActive="active current" routerLink="balance" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Xisaab Guud</a>
+      <!-- <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  News</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  General</a> -->
+      <a routerLinkActive="active current" routerLink="history" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
+      <!-- <a routerLinkActive="active current" routerLink="comm" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw"></i>  Comm</a><br><br> -->
+      <a *ngIf="manager == 'manager'" routerLinkActive="active current" routerLink="operations" class="w3-bar-item w3-button w3-padding"><i class="fa fa-asterisk"></i>  Maamulka</a><br><br>
+      
+    </nav>
+  
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+  
+  <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+  <div class="w3-main" style="margin-left:200px">
+  
+    <div id="main" class="w3-row">
+      <div class="w3-twothird w3-container">
+          <!-- <app-root></app-root> -->
+          <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+<div>
+</div>
+  
+  </body>
+<style>
+  
+</style>
+  <div id="login">
+      <form id="form" (submit)="login()">
+          <div class="container">
+            <img style="width: 30%" src="assets/logo.png" />
+            <p>Please login with your <u><b>Email</b></u> and <u><b>Password!</b></u></p>
+            <!-- <label><b>Email</b></label><br /> -->
+            <input type="text" placeholder="Enter Email" [(ngModel)]="localUser.email" name="uname"  required><br />
+        
+            <!-- <label><b>Password</b></label><br /> -->
+            <input type="password" placeholder="Enter Password" [(ngModel)]="localUser.password"  name="psw" required><br />
+                
+            <button type="submit">Login</button><br /><br />
+            <a (click)="forgot()">Forgot Password?</a>
+          </div>
+          
+        </form> 
+        <form id="forg" (mouseover)="equal()">
+            <div class="container">
+              <img style="width: 5%" src="assets/logo.png" />
+              <p>please provide all the codes</p>
+              <span style="color: red">{{error}}</span>
+              <!-- <label><b>Email</b></label><br /> -->
+              <input type="password" placeholder="Enter Code One" [(ngModel)]="pin.one"  name="one" required>
+              <input type="password" placeholder="Enter Code Two" [(ngModel)]="pin.two"  name="two" required><br />
+              <input type="password" placeholder="Enter password" [(ngModel)]="pin.pass"  name="pass" required>
+              <input type="password" placeholder="Confirm password" [(ngModel)]="pin.confirm_pass"  name="confirm-pass" required><br />
+              <button (click)="emergency_reset()" style="width: 40%; height: 10%;" type="submit">Reset</button>
+              <a (click)="back_login()"><button style="width: 40%; height: 10%; background-color: red">back to login</button></a>
+            </div>
+            
+      </form> 
+        
+  </div>
+  </html>
+
+
+
+
+
+
+  
+
+
+
+  

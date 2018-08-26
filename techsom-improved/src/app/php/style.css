@@ -1,0 +1,77 @@
+#main {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    padding-top: 10px;
+}
+#main:full-screen {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  background: none;
+}
+#buttons_left {
+  float: left;
+}
+#page {
+  color: black;
+  width: 500px;
+  height: 550px;
+  background-color: lightyellow;
+  margin-left: 100px;
+}
+#button {
+    width: 80px;
+    height: 40px;
+    
+    font-size: 10px;
+    
+    
+      display: inline-block;
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 17px;
+
+  transition: all 0.5s;
+  cursor: pointer;
+}
+#button:hover {
+    background-color: aqua;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+#buttons {
+  margin-left: 30px;
+  margin-top: 15px;
+}
+
+#gofull {
+  color: white;
+}

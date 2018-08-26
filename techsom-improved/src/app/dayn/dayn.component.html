@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Dayn</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<hr />
+<body>
+<div class="container">
+    <!-- <form>
+        <input type="number" name="online" [(ngModel)]="online" placeholder="$$">
+        <input type="submit" name="drop" value="Drop">
+      </form><br /> -->
+    <button style="background-color: green; float: left; color: white; margin-right: 40%; height: 60%;">{{overall | currency}} </button>
+    <form style="float: left;" (submit)="drop()">
+      Drop here-->
+      <input style="border: solid" type="number" name="online" [(ngModel)]="drop_model" placeholder="$$">
+      <input type="submit" name="drop" value="Drop">
+  </form><br />
+    <h2>Dayn</h2>
+  {{bal_hubi}}
+  <form class="form-inline" (submit)="addDayn()">
+      <input type="text" class="form-control" id="name" placeholder="Enter Name" name="name" [(ngModel)]="model.name">
+        <input type="number" class="form-control" id="phone" placeholder="Enter Phone#" name="phone" [(ngModel)]="model.phone_number">
+ 
+        <input type="number" class="form-control" id="amount" placeholder="Enter $$" name="amount" [(ngModel)]="model.amount">
+
+        <input type="number" class="form-control" id="amount" placeholder="Days to pay" name="amount" [(ngModel)]="model.days">
+
+    <!-- <div class="checkbox">
+      <label><input type="checkbox" name="remember"> Remember me</label>
+    </div> -->
+    <button type="submit" class="btn btn-success">Register</button>
+  </form> <hr />
+  <form *ngIf="check">
+      <select class="btn-warning" name="value" [(ngModel)]="value">
+          <option selected>All</option>
+          <option>late</option>
+        </select>
+      <!-- <span class="btn-primary">Past Due: {{neg}}  </span><span> </span> <br/>    -->
+      <span *ngIf="check" style="float: right; color: green; margin-right: 20%">Total: {{all | filter_dayn:value | currency}}</span>  
+    </form> 
+      <form *ngIf="check">
+        <input type="number" name="phone" id="search" [(ngModel)]="phone" placeholder="Search with phone..">
+      </form>
+  <table *ngIf="check" class="table table-striped" style="width: 95%;">
+   
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Due Date</th>
+        <th>Full Name</th>
+        <th>Phone#</th>
+        <th>Amount</th>
+        <th>Paid</th>
+        <th>Balance</th>
+        <th>Action</th>
+        <th>initials</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let x of dayn | filter:phone | filters:value">
+        <td>{{x.date * 1000 | date}}</td>
+        <td>{{x.due_date * 1000 | date}}</td>
+        <td>{{x.name}}</td>
+        <td>{{x.phone}}</td>
+        <td>{{x.amount  | currency}}</td>
+        <td>{{x.paid  | currency}}</td>
+        <td *ngIf="x.balance >= 0">{{x.balance  | currency}}</td>
+        <td *ngIf="x.balance < 0" style="color: green;">({{x.balance - x.balance - x.balance | currency}})</td>
+        <td id="high">
+          <button (click)="delete(x.id)" class="btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+          <!-- <button class="btn-warning">Update</button> -->
+          <button (click)="pop_up_edit(x.id)" class="btn-success">Update</button>
+          <button (click)="pop_up(x.id)" class="btn-primary">Payment</button>
+        </td>
+        <td>{{x.initials}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <button (click)="pop_close()" class="close">&times;</button>
+      <form id="form" (submit)="pay()">
+        <!-- <select name="id" [(ngModel)]="paid.id">
+          <option>{{id}}</option>
+        </select> -->
+        <div class="form-group">
+            <h2>{{temp.name}}</h2>
+          <label for="pwd">Payment:</label>
+          <input type="amount" class="form-control" id="amount" placeholder="Enter $$" [(ngModel)]="paid.paid" name="amount">
+        </div>
+        <!-- <div class="checkbox">
+          <label><input type="checkbox" name="remember"> Remember me</label>
+        </div> -->
+        <button type="submit" class="btn btn-success">Pay</button>
+      </form>
+    </div>
+  
+  </div>
+
+  <div id="myEdit" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <button (click)="pop_close_edit()" class="close">&times;</button>
+      <form id="up">
+        <label><b>First Name</b></label><br />
+        <input style="width: 100%" type="text" [(ngModel)]="temp.name" name="uname1" required><br />
+    
+        <label><b>Phone Number</b></label><br />
+        <input style="width: 100%" type="text" [(ngModel)]="temp.phone" name="uname3" required><br />
+      <br />
+            <button (click)="updateEmployee()" type="submit" class="btn btn-success">Update</button>
+    </form>
+    </div>
+  
+  </div>
+</div>
+
+</body>
+</html>
+
+

@@ -1,0 +1,50 @@
+input[type=text]:focus {
+    background-color: lightblue;
+}
+
+input[type=number]:focus {
+    background-color: lightblue;
+}
+#search {
+    width: 170px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
+    background-image: url('searchicon.png');
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding-left: 4px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+#search:focus {
+    width: 40%;
+}
+
+.container {
+    width: 90%;
+    float: left;
+    margin-top: 4%;
+}
+
+.checks {
+float: left;
+margin-top: 5%;
+width: 60%;
+}
+
+.cash {
+float: left;
+margin-top: 5%;
+width: 60%;
+}
+
+#updating {
+    float: left;
+}
+#updating_cash {
+    float: left;
+}
